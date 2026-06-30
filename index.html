@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="light">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>AntiScam VN – Kiểm Tra Lừa Đảo</title>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --bg:#0a0d14;--bg2:#0f1320;--card:#141927;--card2:#1a2035;
+  --border:#1f2a40;--border2:#172035;
+  --text:#e8edf5;--text2:#8892a8;--text3:#4a5568;
+  --accent:#3b82f6;--accent2:#1d4ed8;--accent-bg:#1e3a5f22;--accent-light:#1e3a5f44;
+  --gold:#f59e0b;--gold-bg:#78350f22;
+  --silver:#94a3b8;--silver-bg:#1e293b33;
+  --bronze:#f97316;--bronze-bg:#7c2d1222;
+  --elite:#a855f7;--elite-bg:#4c1d9522;
+  --green:#22c55e;--green-bg:#14532d22;
+  --red:#ef4444;--red-bg:#7f1d1d22;
+  --orange:#f97316;--orange-bg:#7c2d1222;
+  --cyan:#06b6d4;--cyan-bg:#0e7490;
+  --sh:0 2px 16px rgba(0,0,0,.4);
+  --sh-md:0 4px 28px rgba(0,0,0,.5);
+  --sh-lg:0 8px 48px rgba(0,0,0,.65);
+  --r:16px;--nav:70px;
+  --glow-blue:0 0 24px rgba(59,130,246,.25);
+  --glow-gold:0 0 24px rgba(245,158,11,.25);
+}
+[data-theme="light"]{
+  --bg:#f0f4ff;--bg2:#e4ecff;--card:#fff;--card2:#f8faff;
+  --border:#dbe4f7;--border2:#e8effe;
+  --text:#0f172a;--text2:#475569;--text3:#94a3b8;
+  --accent:#2563eb;--accent2:#1d4ed8;--accent-bg:#dbeafe;--accent-light:#eff6ff;
+  --gold:#d97706;--gold-bg:#fef3c7;
+  --silver:#64748b;--silver-bg:#f1f5f9;
+  --bronze:#c2410c;--bronze-bg:#fff7ed;
+  --elite:#7c3aed;--elite-bg:#f3e8ff;
+  --green:#16a34a;--green-bg:#f0fdf4;
+  --red:#dc2626;--red-bg:#fff1f2;
+  --orange:#ea580c;--orange-bg:#fff7ed;
+  --sh:0 2px 12px rgba(59,130,246,.08);
+  --sh-md:0 4px 24px rgba(59,130,246,.12);
+  --sh-lg:0 8px 40px rgba(59,130,246,.16);
+  --glow-blue:0 0 20px rgba(37,99,235,.12);
+  --glow-gold:0 0 20px rgba(217,119,6,.12);
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:'Be Vietnam Pro',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;transition:background .3s,color .3s}
+
+/* ── HEADER ── */
+.hdr{
+  position:sticky;top:0;z-index:200;
+  background:var(--card);border-bottom:1px solid var(--border);
+  padding:0 20px;height:60px;display:flex;align-items:center;justify-content:space-between;
+  box-shadow:var(--sh);backdrop-filter:blur(12px);
+}
+.hdr-brand{display:flex;align-items:center;gap:10px;text-decoration:none}
+.hdr-logo{
+  width:38px;height:38px;border-radius:11px;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:var(--glow-blue);flex-shrink:0;
+}
+.hdr-logo svg{width:20px;height:20px;color:#fff}
+.hdr-title{font-weight:900;font-size:16px;letter-spacing:-.5px;color:var(--text)}
+.hdr-sub{font-size:10.5px;color:var(--text2);font-weight:500}
+.hdr-right{display:flex;align-items:center;gap:8px}
+.icon-btn{
+  width:36px;height:36px;border-radius:10px;
+  background:var(--card2);border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;color:var(--text2);transition:all .2s;
+}
+.icon-btn:hover{background:var(--accent-bg);color:var(--accent);border-color:var(--accent)}
+.icon-btn svg{width:17px;height:17px}
+.login-btn{
+  padding:8px 16px;background:linear-gradient(135deg,var(--accent),var(--accent2));
+  color:#fff;border:none;border-radius:10px;font-size:13px;font-weight:700;
+  cursor:pointer;font-family:inherit;transition:all .2s;
+  box-shadow:var(--glow-blue);
+}
+.login-btn:hover{transform:translateY(-1px);opacity:.92}
+
+/* ── HERO ── */
+.hero-wrap{
+  background:linear-gradient(135deg,var(--bg),var(--bg2));
+  padding:40px 20px 32px;text-align:center;position:relative;overflow:hidden;
+}
+.hero-wrap::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(59,130,246,.12),transparent);
+  pointer-events:none;
+}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:6px;
+  background:var(--accent-bg);border:1px solid var(--accent);
+  border-radius:30px;padding:5px 14px;font-size:12px;font-weight:700;
+  color:var(--accent);margin-bottom:16px;
+}
+.hero-badge svg{width:12px;height:12px}
+.hero-badge .dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
+.hero h1{font-size:clamp(24px,6vw,36px);font-weight:900;letter-spacing:-1px;line-height:1.15;margin-bottom:10px}
+.hero h1 span{
+  background:linear-gradient(135deg,var(--accent),var(--elite));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.hero p{font-size:14px;color:var(--text2);line-height:1.7;max-width:340px;margin:0 auto 24px}
+
+/* SEARCH BOX */
+.search-box{
+  background:var(--card);border:1.5px solid var(--border);
+  border-radius:18px;padding:18px;box-shadow:var(--sh-md);
+  max-width:500px;margin:0 auto;
+}
+.search-box p{font-size:12px;font-weight:700;color:var(--text2);margin-bottom:10px;text-transform:uppercase;letter-spacing:.5px}
+.search-row{display:flex;gap:8px}
+.search-input{
+  flex:1;padding:12px 16px;border-radius:12px;
+  border:1.5px solid var(--border);background:var(--card2);
+  color:var(--text);font-size:14px;font-family:inherit;
+  transition:border-color .2s,box-shadow .2s;
+}
+.search-input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-bg)}
+.search-btn{
+  padding:12px 18px;background:linear-gradient(135deg,var(--accent),var(--accent2));
+  color:#fff;border:none;border-radius:12px;font-size:14px;font-weight:800;
+  cursor:pointer;font-family:inherit;transition:all .2s;white-space:nowrap;
+  box-shadow:var(--glow-blue);
+}
+.search-btn:hover{transform:translateY(-1px);opacity:.92}
+.search-tabs{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap}
+.stab{
+  padding:6px 13px;border-radius:8px;border:1.5px solid var(--border);
+  background:var(--card2);color:var(--text2);font-size:12px;font-weight:700;
+  cursor:pointer;transition:all .2s;font-family:inherit;
+}
+.stab.on{background:var(--accent-bg);border-color:var(--accent);color:var(--accent)}
+
+/* RESULT */
+.result-area{max-width:500px;margin:14px auto 0;text-align:left;display:none}
+.result-scam{
+  background:var(--red-bg);border:2px solid var(--red);
+  border-radius:14px;padding:16px;
+}
+.result-safe{
+  background:var(--green-bg);border:2px solid var(--green);
+  border-radius:14px;padding:16px;
+}
+.result-title{font-weight:900;font-size:16px;display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.result-detail{font-size:13px;color:var(--text2);line-height:1.6}
+
+/* ── MAIN CONTENT ── */
+.main{max-width:900px;margin:0 auto;padding:0 16px 100px}
+.section-title{font-size:18px;font-weight:900;letter-spacing:-.4px;margin:28px 0 14px;display:flex;align-items:center;gap:8px}
+.section-title svg{width:18px;height:18px;color:var(--accent)}
+.section-sub{font-size:12.5px;color:var(--text2);margin-top:2px}
+
+/* STATS GRID */
+.stats-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:20px}
+@media(min-width:600px){.stats-grid{grid-template-columns:repeat(4,1fr)}}
+.stat-card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:var(--r);padding:16px 14px;text-align:center;
+  box-shadow:var(--sh);transition:transform .2s;
+}
+.stat-card:hover{transform:translateY(-2px)}
+.stat-ico{width:36px;height:36px;border-radius:10px;margin:0 auto 8px;display:flex;align-items:center;justify-content:center}
+.stat-ico svg{width:18px;height:18px}
+.stat-val{font-size:24px;font-weight:900;letter-spacing:-1px}
+.stat-label{font-size:11px;color:var(--text2);font-weight:600;margin-top:2px}
+
+/* GDV GRID */
+.gdv-grid{display:grid;grid-template-columns:1fr;gap:12px}
+@media(min-width:600px){.gdv-grid{grid-template-columns:1fr 1fr}}
+.gdv-card{
+  background:var(--card);border:1.5px solid var(--border);
+  border-radius:var(--r);padding:16px;cursor:pointer;
+  display:flex;align-items:center;gap:14px;
+  transition:all .2s;box-shadow:var(--sh);position:relative;overflow:hidden;
+}
+.gdv-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,transparent,var(--tier-color,var(--accent)),transparent);
+  opacity:0;transition:opacity .2s;
+}
+.gdv-card:hover{transform:translateY(-2px);box-shadow:var(--sh-md)}
+.gdv-card:hover::before{opacity:1}
+.gdv-ava-wrap{position:relative;flex-shrink:0}
+.gdv-ava{width:54px;height:54px;border-radius:50%;object-fit:cover;border:2.5px solid}
+.gdv-verify{
+  position:absolute;bottom:1px;right:1px;
+  width:18px;height:18px;border-radius:50%;
+  background:var(--green);border:2px solid var(--card);
+  display:flex;align-items:center;justify-content:center;
+}
+.gdv-verify svg{width:9px;height:9px;color:#fff}
+.gdv-info{flex:1;min-width:0}
+.gdv-name{font-weight:800;font-size:14.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.gdv-discord{font-size:12px;color:var(--text2);margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.gdv-footer{display:flex;align-items:center;gap:6px;margin-top:7px;flex-wrap:wrap}
+.tier-badge{font-size:11px;font-weight:800;padding:3px 10px;border-radius:20px;letter-spacing:.2px}
+.gdv-deposit{font-size:12px;font-weight:800;color:var(--green)}
+
+/* MODAL */
+.modal-overlay{
+  position:fixed;inset:0;background:rgba(0,0,0,.65);
+  z-index:500;display:flex;align-items:flex-end;justify-content:center;
+  animation:fadeIn .2s ease;
+}
+.modal-overlay.center{align-items:center}
+.modal{
+  background:var(--card);border-radius:24px 24px 0 0;
+  width:100%;max-width:480px;max-height:90vh;overflow-y:auto;
+  animation:slideUp .3s ease;
+}
+.modal.center-m{border-radius:24px;max-height:85vh;margin:16px}
+.modal-handle{width:36px;height:4px;border-radius:4px;background:var(--border);margin:12px auto 0}
+.modal-head{
+  padding:18px 20px 14px;border-bottom:1px solid var(--border);
+  display:flex;align-items:center;gap:12px;
+}
+.modal-ava-big{width:72px;height:72px;border-radius:50%;object-fit:cover;flex-shrink:0}
+.modal-name{font-size:20px;font-weight:900;letter-spacing:-.5px}
+.modal-discord{font-size:13px;color:var(--text2);margin-top:2px}
+.modal-body{padding:16px 20px 24px}
+.info-row{display:flex;justify-content:space-between;align-items:flex-start;padding:10px 0;border-bottom:1px solid var(--border2)}
+.info-row:last-child{border-bottom:none}
+.info-label{font-size:12.5px;color:var(--text2);display:flex;align-items:center;gap:6px}
+.info-label svg{width:13px;height:13px}
+.info-val{font-size:13px;font-weight:700;text-align:right;max-width:220px;word-break:break-all}
+.discord-check-btn{
+  width:100%;margin-top:14px;padding:13px;
+  background:linear-gradient(135deg,#5865F2,#4752C4);
+  color:#fff;border:none;border-radius:12px;
+  font-size:14px;font-weight:800;cursor:pointer;font-family:inherit;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  transition:all .2s;box-shadow:0 4px 16px rgba(88,101,242,.35);
+}
+.discord-check-btn:hover{transform:translateY(-1px);opacity:.92}
+.discord-check-btn svg{width:18px;height:18px}
+.modal-close{
+  position:absolute;top:14px;right:14px;
+  width:32px;height:32px;border-radius:50%;
+  background:var(--card2);border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;color:var(--text2);transition:all .2s;
+}
+.modal-close:hover{background:var(--red-bg);color:var(--red)}
+.modal-close svg{width:14px;height:14px}
+
+/* REPORT FORM */
+.rep-form{background:var(--card);border:1.5px solid var(--border);border-radius:var(--r);padding:18px;box-shadow:var(--sh)}
+.fgrp{margin-bottom:13px}
+.flbl{font-size:11px;font-weight:800;color:var(--text2);display:block;margin-bottom:5px;text-transform:uppercase;letter-spacing:.4px}
+.finp,.fsel,.ftxt{
+  width:100%;padding:11px 14px;border-radius:11px;
+  border:1.5px solid var(--border);background:var(--card2);
+  color:var(--text);font-size:14px;font-family:inherit;transition:border-color .2s;
+}
+.finp:focus,.fsel:focus,.ftxt:focus{outline:none;border-color:var(--accent)}
+.ftxt{resize:vertical;min-height:88px}
+.fsel option{background:var(--card)}
+
+/* REPORT LIST */
+.rep-card{
+  background:var(--card);border:1.5px solid var(--border);
+  border-radius:var(--r);padding:15px;margin-bottom:10px;
+  box-shadow:var(--sh);
+}
+.rep-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;gap:8px}
+.rep-name{font-weight:800;color:var(--red);font-size:14.5px}
+.rep-pill{font-size:10.5px;font-weight:700;padding:3px 10px;border-radius:20px;white-space:nowrap;flex-shrink:0}
+.pill-pend{background:var(--orange-bg);color:var(--orange)}
+.pill-done{background:var(--green-bg);color:var(--green)}
+.rep-meta{display:flex;gap:12px;font-size:12px;color:var(--text3);margin-top:8px;flex-wrap:wrap}
+.rep-meta span{display:flex;align-items:center;gap:4px}
+.rep-meta svg{width:11px;height:11px}
+
+/* TABS */
+.tabs{display:flex;background:var(--card2);border:1px solid var(--border);border-radius:12px;padding:4px;gap:4px;margin-bottom:16px}
+.tab{flex:1;padding:9px;border:none;background:none;border-radius:9px;cursor:pointer;font-size:13px;font-weight:700;color:var(--text3);transition:all .2s;font-family:inherit}
+.tab.on{background:var(--card);color:var(--accent);box-shadow:var(--sh)}
+
+/* BOTTOM NAV */
+.bnav{
+  position:fixed;bottom:0;left:0;right:0;
+  background:var(--card);border-top:1px solid var(--border);
+  display:flex;height:var(--nav);
+  box-shadow:0 -4px 20px rgba(0,0,0,.1);z-index:100;
+}
+.ni{
+  flex:1;background:none;border:none;cursor:pointer;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;
+  color:var(--text3);transition:color .2s;font-family:inherit;padding:0;
+}
+.ni.on{color:var(--accent)}
+.ni svg{width:21px;height:21px}
+.ni span{font-size:9.5px;font-weight:700;letter-spacing:.2px}
+.ni-dot{width:4px;height:4px;border-radius:50%;background:var(--accent);opacity:0;transition:opacity .2s}
+.ni.on .ni-dot{opacity:1}
+
+/* NOTIF */
+.notif{
+  position:fixed;top:70px;left:50%;transform:translateX(-50%) translateY(-10px);
+  padding:10px 22px;border-radius:30px;z-index:9999;
+  font-size:13px;font-weight:700;white-space:nowrap;
+  max-width:calc(100vw - 40px);overflow:hidden;text-overflow:ellipsis;
+  animation:notifIn .3s ease forwards;
+}
+.notif.ok{background:var(--green);color:#fff;box-shadow:0 4px 20px rgba(34,197,94,.4)}
+.notif.err{background:var(--red);color:#fff;box-shadow:0 4px 20px rgba(239,68,68,.4)}
+
+/* SCREEN */
+.screen{display:none;padding:16px 0 0;animation:fadeIn .25s ease}
+.screen.active{display:block}
+
+/* EMPTY */
+.empty{text-align:center;padding:48px 20px;color:var(--text2)}
+.empty svg{width:48px;height:48px;margin:0 auto 12px;opacity:.3;display:block}
+.empty p{font-size:14px}
+
+/* BTN */
+.btn{border:none;border-radius:12px;padding:13px;font-weight:800;font-size:14.5px;cursor:pointer;width:100%;font-family:inherit;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px}
+.btn svg{width:17px;height:17px}
+.btn-blue{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;box-shadow:var(--glow-blue)}
+.btn-blue:hover{transform:translateY(-1px);opacity:.92}
+.btn-red{background:linear-gradient(135deg,#dc2626,#b91c1c);color:#fff}
+.btn-red:hover{transform:translateY(-1px);opacity:.92}
+
+/* SEARCH FILTER */
+.sw{position:relative;margin-bottom:14px}
+.sw-ico{position:absolute;left:13px;top:50%;transform:translateY(-50%);color:var(--text3);display:flex;pointer-events:none}
+.sw-ico svg{width:15px;height:15px}
+.sinput{width:100%;padding:11px 14px 11px 40px;border-radius:11px;border:1.5px solid var(--border);background:var(--card);color:var(--text);font-size:14px;font-family:inherit;transition:border-color .2s}
+.sinput:focus{outline:none;border-color:var(--accent)}
+
+/* DISCORD COLOR */
+.discord-color{color:#5865F2}
+
+/* LOADING */
+.loader{display:flex;align-items:center;justify-content:center;padding:40px;gap:8px}
+.loader-dot{width:8px;height:8px;border-radius:50%;background:var(--accent);animation:bounce 1.2s infinite}
+.loader-dot:nth-child(2){animation-delay:.2s}
+.loader-dot:nth-child(3){animation-delay:.4s}
+
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+@keyframes slideUp{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:translateY(0)}}
+@keyframes notifIn{from{opacity:0;transform:translateX(-50%) translateY(-20px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+@keyframes bounce{0%,80%,100%{transform:scale(0)}40%{transform:scale(1)}}
+
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="hdr">
+  <a class="hdr-brand" href="#">
+    <div class="hdr-logo">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+    </div>
+    <div>
+      <div class="hdr-title">AntiScam VN</div>
+      <div class="hdr-sub">Bảo vệ cộng đồng</div>
+    </div>
+  </a>
+  <div class="hdr-right">
+    <button class="icon-btn" onclick="toggleTheme()" title="Đổi giao diện">
+      <svg id="th-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
+        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+        <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
+        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+      </svg>
+    </button>
+    <button class="login-btn" onclick="window.location.href='login.html'">
+      <svg style="width:14px;height:14px;display:inline;vertical-align:-2px;margin-right:5px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 3h4a2 2 0 012 2v14a2 2 0 01-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+      Đăng Nhập
+    </button>
+  </div>
+</header>
+
+<div id="notif" style="display:none"></div>
+
+<!-- HERO -->
+<div class="hero-wrap">
+  <div class="hero">
+    <div class="hero-badge">
+      <div class="dot"></div>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      Hệ thống bảo mật hoạt động
+    </div>
+    <h1>Kiểm Tra <span>Lừa Đảo</span><br/>Chuyên Nghiệp</h1>
+    <p>Tra cứu GDV uy tín, kiểm tra tài khoản Discord, báo cáo lừa đảo — tất cả minh bạch, thật 100%.</p>
+  </div>
+  <div class="search-box">
+    <p>🔍 Tìm kiếm nhanh</p>
+    <div class="search-tabs">
+      <button class="stab on" onclick="setSearchType('discord',this)">Discord @</button>
+      <button class="stab" onclick="setSearchType('fb',this)">Facebook</button>
+      <button class="stab" onclick="setSearchType('phone',this)">Số điện thoại</button>
+      <button class="stab" onclick="setSearchType('bank',this)">Số TK ngân hàng</button>
+    </div>
+    <div class="search-row">
+      <input class="search-input" id="search-inp" placeholder="Nhập @discord hoặc link..." onkeydown="if(event.key==='Enter')doSearch()"/>
+      <button class="search-btn" onclick="doSearch()">Kiểm tra</button>
+    </div>
+    <div id="result-area" class="result-area"></div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+  <!-- STATS -->
+  <div id="stats-grid" class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-ico" style="background:var(--green-bg)"><svg viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.5"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg></div>
+      <div class="stat-val" id="st-gdv">—</div>
+      <div class="stat-label">GDV Đã Duyệt</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-ico" style="background:var(--red-bg)"><svg viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="2.5"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/></svg></div>
+      <div class="stat-val" id="st-rep">—</div>
+      <div class="stat-label">Báo Cáo Scam</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-ico" style="background:var(--gold-bg)"><svg viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2.5"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg></div>
+      <div class="stat-val" id="st-total">—</div>
+      <div class="stat-label">Tổng Cọc</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-ico" style="background:var(--accent-bg)"><svg viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></div>
+      <div class="stat-val" id="st-done">—</div>
+      <div class="stat-label">Đã Xử Lý</div>
+    </div>
+  </div>
+
+  <!-- TABS NAV -->
+  <div class="tabs">
+    <button class="tab on" onclick="showTab('gdv',this)">
+      <svg style="width:13px;height:13px;display:inline;vertical-align:-1px;margin-right:4px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+      GDV Uy Tín
+    </button>
+    <button class="tab" onclick="showTab('report',this)">
+      <svg style="width:13px;height:13px;display:inline;vertical-align:-1px;margin-right:4px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/></svg>
+      Báo Cáo Scam
+    </button>
+    <button class="tab" onclick="showTab('history',this)">
+      <svg style="width:13px;height:13px;display:inline;vertical-align:-1px;margin-right:4px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      Lịch Sử
+    </button>
+  </div>
+
+  <!-- GDV SCREEN -->
+  <div id="screen-gdv" class="screen active">
+    <div class="sw">
+      <div class="sw-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
+      <input class="sinput" id="gdv-search" placeholder="Tìm tên, Discord, ngân hàng..." oninput="renderGdv()"/>
+    </div>
+    <!-- Tier filter -->
+    <div style="display:flex;gap:6px;margin-bottom:14px;overflow-x:auto;padding-bottom:4px">
+      <button class="stab on" onclick="setTierFilter('',this)" style="white-space:nowrap">Tất cả</button>
+      <button class="stab" onclick="setTierFilter('GDV Thường',this)" style="white-space:nowrap">GDV Thường</button>
+      <button class="stab" onclick="setTierFilter('GDV Cao Cấp',this)" style="white-space:nowrap">GDV Cao Cấp</button>
+      <button class="stab" onclick="setTierFilter('Giao Dịch Uy Tín',this)" style="white-space:nowrap">Uy Tín</button>
+      <button class="stab" onclick="setTierFilter('Giao Dịch Viên Quản Trị',this)" style="white-space:nowrap">Quản Trị</button>
+    </div>
+    <div id="gdv-wrap" class="gdv-grid"></div>
+  </div>
+
+  <!-- REPORT SCREEN -->
+  <div id="screen-report" class="screen">
+    <div class="section-title">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/></svg>
+      Báo Cáo Lừa Đảo
+    </div>
+    <div class="rep-form">
+      <div class="fgrp"><label class="flbl">Tên kẻ lừa đảo</label><input class="finp" id="rep-name" placeholder="Họ tên hoặc nickname..."/></div>
+      <div class="fgrp"><label class="flbl">Discord / Facebook</label><input class="finp" id="rep-social" placeholder="@discord hoặc link fb..."/></div>
+      <div class="fgrp"><label class="flbl">Link shop / trang</label><input class="finp" id="rep-shop" placeholder="https://..."/></div>
+      <div class="fgrp"><label class="flbl">Số điện thoại</label><input class="finp" id="rep-phone" placeholder="09xxxxxxxx" type="tel"/></div>
+      <div class="fgrp"><label class="flbl">Số TK ngân hàng</label><input class="finp" id="rep-bank" placeholder="Ngân hàng - Số tài khoản"/></div>
+      <div class="fgrp"><label class="flbl">Mô tả chi tiết</label><textarea class="ftxt" id="rep-desc" placeholder="Mô tả cách bị lừa, số tiền, bằng chứng..."></textarea></div>
+      <button class="btn btn-red" onclick="submitReport()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 2L11 13"/><path d="M22 2L15 22 11 13 2 9l20-7z"/></svg>
+        Gửi Báo Cáo
+      </button>
+    </div>
+  </div>
+
+  <!-- HISTORY SCREEN -->
+  <div id="screen-history" class="screen">
+    <div class="section-title">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      Danh Sách Báo Cáo
+    </div>
+    <div id="rlist-wrap"></div>
+  </div>
+</div>
+
+<!-- GDV MODAL -->
+<div id="gdv-modal" class="modal-overlay" style="display:none" onclick="if(event.target===this)closeModal()">
+  <div class="modal" style="position:relative">
+    <div class="modal-handle"></div>
+    <button class="modal-close" onclick="closeModal()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    <div id="modal-content"></div>
+  </div>
+</div>
+
+<script>
+// ══ CONFIG ══
+const API_BASE = window.location.origin; // Render.com base URL
+
+// ══ STORAGE (fallback khi không có server) ══
+const S = {
+  get: k => { try { return JSON.parse(localStorage.getItem('antiscam_' + k)) } catch { return null } },
+  set: (k, v) => localStorage.setItem('antiscam_' + k, JSON.stringify(v))
+};
+
+// ══ STATE ══
+let gdvData = [], repData = [], tierFilter = '', searchType = 'discord';
+
+// ══ LOAD DATA từ server hoặc localStorage ══
+async function loadData() {
+  try {
+    const [g, r] = await Promise.all([
+      fetch(API_BASE + '/api/gdv').then(x => x.ok ? x.json() : null).catch(() => null),
+      fetch(API_BASE + '/api/reports').then(x => x.ok ? x.json() : null).catch(() => null)
+    ]);
+    if (g) { gdvData = g; S.set('gdv', g); }
+    else { gdvData = S.get('gdv') || getDefaultGdv(); }
+    if (r) { repData = r; S.set('reports', r); }
+    else { repData = S.get('reports') || []; }
+  } catch {
+    gdvData = S.get('gdv') || getDefaultGdv();
+    repData = S.get('reports') || [];
+  }
+  renderStats();
+  renderGdv();
+  renderRlist();
+}
+
+function getDefaultGdv() { return []; }
+
+// ══ SEARCH ══
+function setSearchType(t, btn) {
+  searchType = t;
+  document.querySelectorAll('.search-tabs .stab').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+  const ph = {discord:'@discord hoặc tên người dùng...', fb:'Link Facebook hoặc tên...', phone:'Số điện thoại...', bank:'Số tài khoản ngân hàng...'};
+  document.getElementById('search-inp').placeholder = ph[t];
+  document.getElementById('result-area').style.display = 'none';
+}
+
+function doSearch() {
+  const q = document.getElementById('search-inp').value.trim().toLowerCase();
+  const area = document.getElementById('result-area');
+  if (!q) { showNotif('Vui lòng nhập thông tin cần tìm!', 'err'); return; }
+
+  area.style.display = 'block';
+
+  // Tìm trong báo cáo scam
+  const inRep = repData.some(r =>
+    (r.social || '').toLowerCase().includes(q) ||
+    (r.scamName || '').toLowerCase().includes(q) ||
+    (r.phone || '').includes(q) ||
+    (r.bank || '').toLowerCase().includes(q)
+  );
+  // Tìm trong GDV
+  const gdv = gdvData.find(g =>
+    (g.discord || '').toLowerCase().includes(q) ||
+    (g.name || '').toLowerCase().includes(q) ||
+    (g.fbLink || '').toLowerCase().includes(q) ||
+    (g.phone || '').includes(q) ||
+    (g.bank || '').toLowerCase().includes(q)
+  );
+
+  if (inRep) {
+    const reps = repData.filter(r =>
+      (r.social || '').toLowerCase().includes(q) ||
+      (r.scamName || '').toLowerCase().includes(q) ||
+      (r.phone || '').includes(q) ||
+      (r.bank || '').toLowerCase().includes(q)
+    );
+    area.innerHTML = `<div class="result-scam">
+      <div class="result-title" style="color:var(--red)">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+        ⚠️ CẢNH BÁO SCAM!
+      </div>
+      <div class="result-detail">Tìm thấy <strong>${reps.length}</strong> báo cáo liên quan đến thông tin này. Đây có thể là kẻ lừa đảo!<br/><br/>${reps.map(r=>`• <strong>${r.scamName||'Không rõ'}</strong> — ${r.description||''}`).join('<br/>')}</div>
+    </div>`;
+  } else if (gdv) {
+    area.innerHTML = `<div class="result-safe">
+      <div class="result-title" style="color:var(--green)">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
+        ✅ GDV Đã Xác Minh
+      </div>
+      <div class="result-detail">
+        <strong>${gdv.name}</strong> là ${gdv.type} đã được xác minh.<br/>
+        Mức cọc: <strong style="color:var(--green)">${(gdv.deposit||0).toLocaleString('vi-VN')}đ</strong><br/>
+        ${gdv.discord ? `Discord: <strong>${gdv.discord}</strong>` : ''}
+      </div>
+    </div>`;
+  } else {
+    area.innerHTML = `<div style="background:var(--card2);border:1.5px solid var(--border);border-radius:14px;padding:14px">
+      <div class="result-title">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        Không tìm thấy
+      </div>
+      <div class="result-detail" style="color:var(--text2)">Không có trong danh sách GDV uy tín và cũng chưa có báo cáo scam. Hãy cẩn thận khi giao dịch!</div>
+    </div>`;
+  }
+}
+
+// ══ TIER CONFIG ══
+const TIER = {
+  'GDV Thường': { color: '#22c55e', bg: 'var(--green-bg)', border: '#22c55e' },
+  'GDV Cao Cấp': { color: '#3b82f6', bg: 'var(--accent-bg)', border: '#3b82f6' },
+  'Giao Dịch Uy Tín': { color: '#f59e0b', bg: 'var(--gold-bg)', border: '#f59e0b' },
+  'Giao Dịch Viên Quản Trị': { color: '#a855f7', bg: 'var(--elite-bg)', border: '#a855f7' },
+};
+
+function getTier(t) { return TIER[t] || { color: '#64748b', bg: 'var(--silver-bg)', border: '#64748b' }; }
+
+// ══ RENDER GDV ══
+function setTierFilter(t, btn) {
+  tierFilter = t;
+  document.querySelectorAll('#screen-gdv .stab').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+  renderGdv();
+}
+
+function renderGdv() {
+  const q = (document.getElementById('gdv-search')?.value || '').toLowerCase();
+  let list = gdvData.filter(g => {
+    const match = !q || (g.name||'').toLowerCase().includes(q) || (g.discord||'').toLowerCase().includes(q) || (g.bank||'').toLowerCase().includes(q);
+    const tier = !tierFilter || g.type === tierFilter;
+    return match && tier;
+  });
+  const w = document.getElementById('gdv-wrap');
+  if (!w) return;
+  if (!list.length) {
+    w.innerHTML = `<div class="empty" style="grid-column:1/-1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg><p>Không tìm thấy GDV nào</p></div>`;
+    return;
+  }
+  w.innerHTML = list.map(g => {
+    const t = getTier(g.type);
+    return `<div class="gdv-card" style="--tier-color:${t.border}" onclick="openGdv('${g.id}')">
+      <div class="gdv-ava-wrap">
+        <img class="gdv-ava" src="${g.avatar||'https://i.pravatar.cc/150?img=1'}" style="border-color:${t.border}" onerror="this.src='https://i.pravatar.cc/150?img=1'" alt="${g.name}"/>
+        <div class="gdv-verify"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+      </div>
+      <div class="gdv-info">
+        <div class="gdv-name">${g.name}</div>
+        <div class="gdv-discord">${g.discord||'—'}</div>
+        <div class="gdv-footer">
+          <span class="tier-badge" style="background:${t.bg};color:${t.color}">${g.type}</span>
+          <span class="gdv-deposit">${(g.deposit||0).toLocaleString('vi-VN')}đ</span>
+        </div>
+      </div>
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text3)" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+    </div>`;
+  }).join('');
+}
+
+function openGdv(id) {
+  const g = gdvData.find(x => String(x.id) === String(id));
+  if (!g) return;
+  const t = getTier(g.type);
+  document.getElementById('modal-content').innerHTML = `
+    <div class="modal-head" style="background:linear-gradient(135deg,${t.bg},var(--card))">
+      <div style="position:relative;display:inline-block">
+        <img class="modal-ava-big" src="${g.avatar||'https://i.pravatar.cc/150?img=1'}" style="border:3px solid ${t.border}" onerror="this.src='https://i.pravatar.cc/150?img=1'" alt="${g.name}"/>
+        <div class="gdv-verify" style="width:22px;height:22px;bottom:2px;right:2px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+      </div>
+      <div>
+        <div class="modal-name">${g.name}</div>
+        <div class="modal-discord">${g.discord||''}</div>
+        <div style="margin-top:6px"><span class="tier-badge" style="background:${t.bg};color:${t.color};font-size:12px;padding:4px 12px">${g.type}</span></div>
+      </div>
+    </div>
+    <div class="modal-body">
+      <div class="info-row"><span class="info-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>Tiền Cọc</span><span class="info-val" style="color:var(--green);font-size:16px;font-weight:900">${(g.deposit||0).toLocaleString('vi-VN')}đ</span></div>
+      <div class="info-row"><span class="info-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Ngày Tham Gia</span><span class="info-val">${g.joinDate||'—'}</span></div>
+      <div class="info-row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:13px;height:13px;color:var(--text2);flex-shrink:0"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg><span class="info-label" style="flex:1">Ngân Hàng</span><span class="info-val">${g.bank||'—'}</span></div>
+      ${g.fbLink?`<div class="info-row"><span class="info-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>Facebook</span><a href="${g.fbLink}" target="_blank" class="info-val" style="color:var(--accent);font-size:12px">Xem Profile</a></div>`:''}
+      ${g.discord?`<div class="info-row"><span class="info-label"><svg viewBox="0 0 24 24" fill="none" stroke="#5865F2" stroke-width="2"><path d="M20.317 4.37a19.791 19.791 0 00-4.885-1.515.074.074 0 00-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 00-5.487 0 12.64 12.64 0 00-.617-1.25.077.077 0 00-.079-.037A19.736 19.736 0 003.677 4.37a.07.07 0 00-.032.027C.533 9.046-.32 13.58.099 18.057c.002.022.015.043.03.055a19.9 19.9 0 005.993 3.03.078.078 0 00.084-.028 14.09 14.09 0 001.226-1.994.076.076 0 00-.041-.106 13.107 13.107 0 01-1.872-.892.077.077 0 01-.008-.128 10.2 10.2 0 00.372-.292.074.074 0 01.077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 01.078.01c.12.098.246.198.373.292a.077.077 0 01-.006.127 12.299 12.299 0 01-1.873.892.077.077 0 00-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 00.084.028 19.839 19.839 0 006.002-3.03.077.077 0 00.032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 00-.031-.03z"/></svg>Discord</span><span class="info-val discord-color">${g.discord}</span></div>`:''}
+      <div class="info-row"><span class="info-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Trạng Thái</span><span class="info-val" style="color:var(--green)">✅ Đã Xác Minh</span></div>
+      ${g.gdvLink?`<a href="${g.gdvLink}" target="_blank" class="btn btn-blue" style="margin-top:12px;text-decoration:none"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Xem Profile GDV Uy Tín</a>`:''}
+    </div>`;
+  document.getElementById('gdv-modal').style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+}
+function closeModal() {
+  document.getElementById('gdv-modal').style.display = 'none';
+  document.body.style.overflow = '';
+}
+
+// ══ REPORT ══
+async function submitReport() {
+  const name = document.getElementById('rep-name').value.trim();
+  const social = document.getElementById('rep-social').value.trim();
+  const shop = document.getElementById('rep-shop').value.trim();
+  const phone = document.getElementById('rep-phone').value.trim();
+  const bank = document.getElementById('rep-bank').value.trim();
+  const desc = document.getElementById('rep-desc').value.trim();
+  if (!name && !social && !phone && !bank) { showNotif('Vui lòng điền ít nhất 1 thông tin!', 'err'); return; }
+  const rep = { id: String(Date.now()), scamName: name || 'Không rõ', social, shop, phone, bank, description: desc, date: new Date().toLocaleDateString('vi-VN'), status: 'pending', createdAt: Date.now() };
+  try {
+    const res = await fetch(API_BASE + '/api/reports', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(rep) });
+    if (res.ok) {
+      repData.unshift(rep); S.set('reports', repData);
+    } else throw new Error();
+  } catch {
+    repData.unshift(rep); S.set('reports', repData);
+  }
+  ['rep-name','rep-social','rep-shop','rep-phone','rep-bank','rep-desc'].forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
+  renderStats(); renderRlist();
+  showNotif('Báo cáo đã được gửi! Cảm ơn bạn.');
+  showTab('history', document.querySelector('.tabs .tab:last-child'));
+}
+
+// ══ RENDER RLIST ══
+function renderRlist() {
+  const w = document.getElementById('rlist-wrap'); if (!w) return;
+  if (!repData.length) { w.innerHTML = `<div class="empty"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><p>Chưa có báo cáo nào</p></div>`; return; }
+  w.innerHTML = repData.map(r => `<div class="rep-card">
+    <div class="rep-head">
+      <div class="rep-name">🚨 ${r.scamName}</div>
+      <span class="rep-pill ${r.status === 'pending' ? 'pill-pend' : 'pill-done'}">${r.status === 'pending' ? '⏳ Đang xem' : '✅ Đã xử lý'}</span>
+    </div>
+    ${r.description ? `<div style="font-size:13px;color:var(--text2);line-height:1.6;margin-bottom:6px">${r.description}</div>` : ''}
+    ${r.social ? `<div style="font-size:12.5px;margin-bottom:3px">📱 <a href="${r.social.startsWith('http') ? r.social : '#'}" target="_blank">${r.social}</a></div>` : ''}
+    ${r.phone ? `<div style="font-size:12.5px;color:var(--text2);margin-bottom:3px">📞 ${r.phone}</div>` : ''}
+    ${r.bank ? `<div style="font-size:12.5px;color:var(--red);margin-bottom:3px">🏦 ${r.bank}</div>` : ''}
+    <div class="rep-meta">
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>${r.date}</span>
+    </div>
+  </div>`).join('');
+}
+
+// ══ STATS ══
+function renderStats() {
+  const total = gdvData.reduce((s, g) => s + (g.deposit || 0), 0);
+  const done = repData.filter(r => r.status === 'resolved').length;
+  const fmt = n => n >= 1e6 ? (n / 1e6).toFixed(1) + 'M' : n >= 1e3 ? (n / 1e3).toFixed(0) + 'K' : n;
+  document.getElementById('st-gdv').textContent = gdvData.length;
+  document.getElementById('st-rep').textContent = repData.length;
+  document.getElementById('st-total').textContent = fmt(total) + 'đ';
+  document.getElementById('st-done').textContent = done;
+}
+
+// ══ TABS ══
+function showTab(t, btn) {
+  ['gdv', 'report', 'history'].forEach(s => document.getElementById('screen-' + s).classList.remove('active'));
+  document.getElementById('screen-' + t).classList.add('active');
+  document.querySelectorAll('.tabs .tab').forEach(b => b.classList.remove('on'));
+  if (btn) btn.classList.add('on');
+  if (t === 'history') renderRlist();
+}
+
+// ══ THEME ══
+function toggleTheme() {
+  const h = document.documentElement, dark = h.getAttribute('data-theme') === 'dark';
+  h.setAttribute('data-theme', dark ? 'light' : 'dark');
+  S.set('theme', dark ? 'light' : 'dark');
+  document.getElementById('th-ico').innerHTML = dark
+    ? `<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>`
+    : `<path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>`;
+}
+
+// ══ NOTIF ══
+let NT;
+function showNotif(msg, t = 'ok') {
+  const el = document.getElementById('notif');
+  el.textContent = msg; el.className = 'notif ' + t; el.style.display = 'block';
+  clearTimeout(NT); NT = setTimeout(() => el.style.display = 'none', 3200);
+}
+
+// ══ INIT ══
+document.addEventListener('DOMContentLoaded', () => {
+  const theme = S.get('theme') || 'light';
+  document.documentElement.setAttribute('data-theme', theme);
+  loadData();
+});
+</script>
+</body>
+</html>

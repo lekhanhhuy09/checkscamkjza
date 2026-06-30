@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="dark">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Admin – AntiScam VN</title>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --bg:#07090f;--bg2:#0d1120;--card:#111827;--card2:#161f35;
+  --border:#1e2d4a;--border2:#162038;
+  --text:#e2e8f5;--text2:#7b89a8;--text3:#3d4f6a;
+  --accent:#3b82f6;--accent2:#1d4ed8;--accent-bg:#1e3a5f30;--accent-light:#1e3a5f50;
+  --gold:#f59e0b;--gold-bg:#78350f25;
+  --silver:#94a3b8;--silver-bg:#1e293b30;
+  --bronze:#f97316;--bronze-bg:#7c2d1225;
+  --elite:#a855f7;--elite-bg:#4c1d9525;
+  --green:#22c55e;--green-bg:#14532d28;
+  --red:#ef4444;--red-bg:#7f1d1d28;
+  --orange:#f97316;--orange-bg:#7c2d1228;
+  --sh:0 2px 20px rgba(0,0,0,.5);
+  --sh-md:0 4px 30px rgba(0,0,0,.6);
+  --sh-lg:0 8px 50px rgba(0,0,0,.75);
+  --r:14px;
+  --glow:0 0 24px rgba(59,130,246,.3);
+}
+[data-theme="light"]{
+  --bg:#f0f4ff;--bg2:#e4ecff;--card:#fff;--card2:#f8faff;
+  --border:#dbe4f7;--border2:#e8effe;
+  --text:#0f172a;--text2:#475569;--text3:#94a3b8;
+  --accent:#2563eb;--accent2:#1d4ed8;--accent-bg:#dbeafe;--accent-light:#eff6ff;
+  --gold:#d97706;--gold-bg:#fef3c7;
+  --silver:#64748b;--silver-bg:#f1f5f9;
+  --bronze:#c2410c;--bronze-bg:#fff7ed;
+  --elite:#7c3aed;--elite-bg:#f3e8ff;
+  --green:#16a34a;--green-bg:#f0fdf4;
+  --red:#dc2626;--red-bg:#fff1f2;
+  --orange:#ea580c;--orange-bg:#fff7ed;
+  --sh:0 2px 12px rgba(59,130,246,.08);
+  --sh-md:0 4px 24px rgba(59,130,246,.12);
+  --sh-lg:0 8px 40px rgba(59,130,246,.16);
+  --glow:0 0 20px rgba(37,99,235,.15);
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:'Be Vietnam Pro',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;transition:background .3s,color .3s}
+
+/* ── KEY SCREEN ── */
+#key-screen{
+  min-height:100vh;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;padding:24px;
+  background:var(--bg);
+  background-image:radial-gradient(ellipse 70% 50% at 50% 0%,rgba(59,130,246,.1),transparent);
+}
+.key-logo{
+  width:80px;height:80px;border-radius:24px;
+  background:linear-gradient(135deg,#1d4ed8,#7c3aed);
+  display:flex;align-items:center;justify-content:center;
+  margin:0 auto 20px;box-shadow:0 0 40px rgba(59,130,246,.4);
+  animation:logoIn .5s ease;
+}
+.key-logo svg{width:36px;height:36px;color:#fff}
+.key-title{font-size:26px;font-weight:900;letter-spacing:-.8px;text-align:center;margin-bottom:6px}
+.key-sub{font-size:13px;color:var(--text2);text-align:center;margin-bottom:28px}
+.key-card{
+  width:100%;max-width:420px;
+  background:var(--card);border:1.5px solid var(--border);
+  border-radius:22px;padding:28px;box-shadow:var(--sh-lg);
+}
+.key-label{font-size:11px;font-weight:800;color:var(--text2);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;display:block}
+.key-input-wrap{position:relative;margin-bottom:16px}
+.key-input{
+  width:100%;padding:14px 48px 14px 16px;
+  border-radius:13px;border:1.5px solid var(--border);
+  background:var(--card2);color:var(--text);font-size:15px;
+  font-family:inherit;letter-spacing:2px;transition:border-color .2s,box-shadow .2s;
+}
+.key-input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-bg)}
+.key-eye{position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--text3);padding:4px;display:flex}
+.key-eye svg{width:17px;height:17px}
+.key-btn{
+  width:100%;padding:14px;border:none;border-radius:13px;
+  background:linear-gradient(135deg,#1d4ed8,#7c3aed);
+  color:#fff;font-size:15px;font-weight:800;cursor:pointer;
+  font-family:inherit;transition:all .2s;
+  box-shadow:0 4px 20px rgba(59,130,246,.35);
+  display:flex;align-items:center;justify-content:center;gap:8px;
+}
+.key-btn:hover{transform:translateY(-1px);opacity:.92}
+.key-err{
+  background:var(--red-bg);border:1.5px solid var(--red);
+  border-radius:11px;padding:11px 14px;color:var(--red);
+  font-size:13px;font-weight:700;margin-bottom:14px;display:none;
+}
+.key-hint{font-size:12px;color:var(--text3);text-align:center;margin-top:14px}
+
+/* ── ADMIN APP ── */
+#admin-app{display:none}
+
+/* SIDEBAR */
+.layout{display:flex;min-height:100vh}
+.sidebar{
+  width:240px;background:var(--card);border-right:1px solid var(--border);
+  flex-shrink:0;display:flex;flex-direction:column;
+  position:sticky;top:0;height:100vh;overflow-y:auto;
+}
+@media(max-width:768px){
+  .layout{flex-direction:column}
+  .sidebar{width:100%;height:auto;position:static;border-right:none;border-bottom:1px solid var(--border)}
+}
+.sb-head{padding:20px 16px 16px;border-bottom:1px solid var(--border)}
+.sb-logo{display:flex;align-items:center;gap:10px}
+.sb-logo-ico{
+  width:36px;height:36px;border-radius:10px;
+  background:linear-gradient(135deg,var(--accent),var(--elite));
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.sb-logo-ico svg{width:18px;height:18px;color:#fff}
+.sb-title{font-weight:900;font-size:14px}
+.sb-sub{font-size:10.5px;color:var(--text2)}
+.sb-nav{flex:1;padding:12px 8px}
+.nav-section{font-size:10px;font-weight:800;color:var(--text3);text-transform:uppercase;letter-spacing:.8px;padding:10px 8px 6px}
+.nav-item{
+  display:flex;align-items:center;gap:10px;
+  padding:10px 12px;border-radius:11px;cursor:pointer;
+  font-size:13.5px;font-weight:700;color:var(--text2);
+  transition:all .2s;margin-bottom:2px;
+}
+.nav-item:hover{background:var(--card2);color:var(--text)}
+.nav-item.on{background:var(--accent-bg);color:var(--accent)}
+.nav-item svg{width:16px;height:16px;flex-shrink:0}
+.nav-badge{margin-left:auto;background:var(--red);color:#fff;font-size:10px;font-weight:800;padding:2px 7px;border-radius:10px;min-width:20px;text-align:center}
+.sb-footer{padding:12px 16px;border-top:1px solid var(--border)}
+.sb-admin{display:flex;align-items:center;gap:8px}
+.sb-ava{
+  width:32px;height:32px;border-radius:50%;
+  background:linear-gradient(135deg,var(--accent),var(--elite));
+  display:flex;align-items:center;justify-content:center;
+  font-size:12px;font-weight:900;color:#fff;flex-shrink:0;
+}
+.sb-name{font-size:12.5px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sb-role{font-size:10.5px;color:var(--elite)}
+
+/* MAIN CONTENT */
+.content{flex:1;overflow-x:hidden}
+.top-bar{
+  padding:14px 24px;background:var(--card);
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;z-index:100;box-shadow:var(--sh);
+}
+.top-bar-title{font-size:18px;font-weight:900;letter-spacing:-.4px}
+.top-bar-right{display:flex;align-items:center;gap:8px}
+.icon-btn{
+  width:36px;height:36px;border-radius:10px;
+  background:var(--card2);border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;color:var(--text2);transition:all .2s;
+}
+.icon-btn:hover{background:var(--accent-bg);color:var(--accent);border-color:var(--accent)}
+.icon-btn svg{width:17px;height:17px}
+.logout-btn{
+  padding:8px 14px;background:var(--red-bg);border:1px solid var(--red);
+  color:var(--red);border-radius:10px;font-size:12.5px;font-weight:700;
+  cursor:pointer;font-family:inherit;transition:all .2s;display:flex;align-items:center;gap:6px;
+}
+.logout-btn:hover{background:var(--red);color:#fff}
+.logout-btn svg{width:14px;height:14px}
+
+/* PAGE */
+.page{display:none;padding:20px 24px 40px;animation:fadeIn .25s ease}
+.page.active{display:block}
+@media(max-width:600px){.page{padding:14px 14px 40px}}
+
+/* STATS ROW */
+.stats-row{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:20px}
+@media(min-width:600px){.stats-row{grid-template-columns:repeat(4,1fr)}}
+.stat-box{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:var(--r);padding:16px 14px;box-shadow:var(--sh);
+  position:relative;overflow:hidden;
+}
+.stat-box::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--tier-c,var(--accent));opacity:.6}
+.stat-ico{width:34px;height:34px;border-radius:9px;margin-bottom:8px;display:flex;align-items:center;justify-content:center}
+.stat-ico svg{width:17px;height:17px}
+.stat-val{font-size:24px;font-weight:900;letter-spacing:-1px}
+.stat-label{font-size:11px;color:var(--text2);font-weight:600;margin-top:2px}
+
+/* CARD */
+.acard{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:20px;box-shadow:var(--sh);margin-bottom:18px}
+.acard-title{font-size:15px;font-weight:800;display:flex;align-items:center;gap:8px;margin-bottom:16px;letter-spacing:-.2px}
+.acard-title svg{width:16px;height:16px;color:var(--accent)}
+
+/* FORM */
+.fgrp{margin-bottom:13px}
+.flbl{font-size:11px;font-weight:800;color:var(--text2);display:block;margin-bottom:5px;text-transform:uppercase;letter-spacing:.4px}
+.finp,.fsel,.ftxt{
+  width:100%;padding:11px 14px;border-radius:11px;
+  border:1.5px solid var(--border);background:var(--card2);
+  color:var(--text);font-size:14px;font-family:inherit;transition:border-color .2s;
+}
+.finp:focus,.fsel:focus,.ftxt:focus{outline:none;border-color:var(--accent)}
+.ftxt{resize:vertical;min-height:80px}
+.fsel option{background:var(--card)}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(max-width:480px){.frow{grid-template-columns:1fr}}
+
+/* DEPOSIT ROW */
+.dep-row{
+  background:var(--card2);border:1.5px solid var(--border);
+  border-radius:11px;padding:12px 16px;
+  display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;
+}
+.dep-label{font-size:12px;color:var(--text2);font-weight:700}
+.dep-val{font-size:16px;font-weight:900;color:var(--green)}
+
+/* BTN */
+.btn{border:none;border-radius:12px;padding:12px 16px;font-weight:800;font-size:14px;cursor:pointer;font-family:inherit;transition:all .2s;display:inline-flex;align-items:center;justify-content:center;gap:7px}
+.btn svg{width:16px;height:16px}
+.btn-w{width:100%}
+.btn-blue{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;box-shadow:var(--glow)}
+.btn-blue:hover{transform:translateY(-1px);opacity:.92}
+.btn-green{background:linear-gradient(135deg,#16a34a,#15803d);color:#fff}
+.btn-green:hover{transform:translateY(-1px);opacity:.92}
+.btn-red{background:var(--red-bg);border:1px solid var(--red);color:var(--red)}
+.btn-red:hover{background:var(--red);color:#fff}
+.btn-del{background:var(--red-bg);border:1px solid var(--red);color:var(--red);border-radius:8px;padding:6px 12px;cursor:pointer;font-size:12px;font-weight:700;font-family:inherit;transition:all .2s}
+.btn-del:hover{background:var(--red);color:#fff}
+.btn-sm{padding:8px 14px;font-size:12.5px}
+
+/* GDV LIST */
+.gdv-row{
+  background:var(--card2);border:1px solid var(--border);
+  border-radius:12px;padding:13px 16px;margin-bottom:8px;
+  display:flex;align-items:center;gap:12px;
+}
+.gdv-row-ava{width:44px;height:44px;border-radius:50%;object-fit:cover;flex-shrink:0;border:2px solid}
+.gdv-row-info{flex:1;min-width:0}
+.gdv-row-name{font-size:13.5px;font-weight:800;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.gdv-row-sub{font-size:11.5px;color:var(--text2);margin-top:1px}
+.tier-badge{font-size:11px;font-weight:800;padding:3px 10px;border-radius:20px;display:inline-block;margin-top:4px}
+
+/* REPORT ROW */
+.rep-row{
+  background:var(--card2);border:1px solid var(--border);
+  border-radius:12px;padding:13px 16px;margin-bottom:8px;
+}
+.rep-row-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px;gap:8px}
+.rep-name{font-size:13.5px;font-weight:800;color:var(--red)}
+.rep-pill{font-size:10.5px;font-weight:700;padding:3px 10px;border-radius:20px;cursor:pointer;border:none;font-family:inherit;transition:all .2s}
+.pill-pend{background:var(--orange-bg);color:var(--orange)}
+.pill-done{background:var(--green-bg);color:var(--green)}
+.rep-detail{font-size:12.5px;color:var(--text2);line-height:1.6;margin-bottom:6px}
+
+/* USER ROWS */
+.user-row{
+  background:var(--card2);border:1px solid var(--border);
+  border-radius:12px;padding:13px 16px;margin-bottom:8px;
+  display:flex;align-items:center;gap:10px;
+}
+.user-ava{
+  width:38px;height:38px;border-radius:50%;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  display:flex;align-items:center;justify-content:center;
+  font-size:13px;font-weight:900;color:#fff;flex-shrink:0;
+}
+
+/* LOG ROWS */
+.log-row{
+  border-bottom:1px solid var(--border2);padding:10px 0;
+  font-size:12.5px;display:flex;align-items:flex-start;gap:10px;
+}
+.log-row:last-child{border-bottom:none}
+.log-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:4px}
+.log-dot.login{background:var(--green)}
+.log-dot.register{background:var(--accent)}
+.log-dot.lock{background:var(--red)}
+.log-dot.report{background:var(--orange)}
+.log-msg{color:var(--text2);flex:1}
+.log-time{color:var(--text3);font-size:11px;white-space:nowrap}
+
+/* NOTIF */
+.notif{
+  position:fixed;top:16px;right:16px;
+  padding:11px 22px;border-radius:30px;z-index:9999;
+  font-size:13px;font-weight:700;box-shadow:var(--sh-lg);
+  animation:notifIn .3s ease;max-width:360px;
+}
+.notif.ok{background:var(--green);color:#fff}
+.notif.err{background:var(--red);color:#fff}
+.notif.warn{background:var(--gold);color:#fff}
+
+/* SEARCH */
+.sw{position:relative;margin-bottom:14px}
+.sw-ico{position:absolute;left:13px;top:50%;transform:translateY(-50%);color:var(--text3);pointer-events:none;display:flex}
+.sw-ico svg{width:15px;height:15px}
+.sinput{width:100%;padding:10px 14px 10px 40px;border-radius:11px;border:1.5px solid var(--border);background:var(--card2);color:var(--text);font-size:14px;font-family:inherit;transition:border-color .2s}
+.sinput:focus{outline:none;border-color:var(--accent)}
+
+/* EMPTY */
+.empty{text-align:center;padding:36px 20px;color:var(--text2)}
+.empty svg{width:40px;height:40px;margin:0 auto 10px;opacity:.25;display:block}
+.empty p{font-size:13.5px}
+
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+@keyframes logoIn{from{transform:scale(.7) rotate(-10deg);opacity:0}to{transform:scale(1) rotate(0);opacity:1}}
+@keyframes notifIn{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+
+a{color:var(--accent);text-decoration:none}
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
+</style>
+</head>
+<body>
+
+<!-- ══ KEY SCREEN ══ -->
+<div id="key-screen">
+  <div class="key-logo">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/><circle cx="12" cy="16" r="1"/></svg>
+  </div>
+  <div class="key-title">⚙️ Trang Quản Trị Admin</div>
+  <div class="key-sub">Nhập khóa bảo mật để tiếp tục</div>
+
+  <div class="key-card">
+    <div class="key-err" id="key-err"></div>
+    <label class="key-label">🔑 Admin Key</label>
+    <div class="key-input-wrap">
+      <input class="key-input" id="key-inp" type="password" placeholder="Nhập admin key..." onkeydown="if(event.key==='Enter')checkKey()"/>
+      <button class="key-eye" onclick="toggleKeyEye()" type="button" id="key-eye-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+      </button>
+    </div>
+    <button class="key-btn" onclick="checkKey()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 3h4a2 2 0 012 2v14a2 2 0 01-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+      Truy Cập Admin
+    </button>
+    <div class="key-hint">Chỉ Admin mới có key truy cập • Mọi lần vào đều được ghi lại</div>
+  </div>
+</div>
+
+<!-- ══ ADMIN APP ══ -->
+<div id="admin-app">
+  <div id="notif" style="display:none"></div>
+
+  <div class="layout">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="sb-head">
+        <div class="sb-logo">
+          <div class="sb-logo-ico">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <div>
+            <div class="sb-title">AntiScam Admin</div>
+            <div class="sb-sub">Bảng điều khiển</div>
+          </div>
+        </div>
+      </div>
+
+      <nav class="sb-nav">
+        <div class="nav-section">Tổng Quan</div>
+        <div class="nav-item on" onclick="goPage('dashboard',this)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          Dashboard
+        </div>
+
+        <div class="nav-section">Quản Lý GDV</div>
+        <div class="nav-item" onclick="goPage('add-gdv',this)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg>
+          Thêm GDV
+        </div>
+        <div class="nav-item" onclick="goPage('gdv-list',this)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+          Danh Sách GDV
+        </div>
+
+        <div class="nav-section">Báo Cáo & Lịch Sử</div>
+        <div class="nav-item" onclick="goPage('reports',this)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/></svg>
+          Báo Cáo Scam
+          <span class="nav-badge" id="rep-badge">0</span>
+        </div>
+        <div class="nav-item" onclick="goPage('users',this)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          Tài Khoản Web
+        </div>
+        <div class="nav-item" onclick="goPage('logs',this)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          Nhật Ký Truy Cập
+        </div>
+
+        <div class="nav-section">Cấu Hình</div>
+        <div class="nav-item" onclick="goPage('settings',this)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+          Cài Đặt
+        </div>
+      </nav>
+
+      <div class="sb-footer">
+        <div class="sb-admin">
+          <div class="sb-ava" id="sb-ava">A</div>
+          <div>
+            <div class="sb-name" id="sb-name">Admin</div>
+            <div class="sb-role">⚙️ Điều Hành Website</div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN -->
+    <div class="content">
+      <div class="top-bar">
+        <div class="top-bar-title" id="page-title">Dashboard</div>
+        <div class="top-bar-right">
+          <a href="index.html" class="icon-btn" title="Về trang chủ">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>
+          </a>
+          <button class="icon-btn" onclick="toggleTheme()" title="Đổi giao diện">
+            <svg id="th-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
+            </svg>
+          </button>
+          <button class="logout-btn" onclick="doLogout()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+            Đăng Xuất
+          </button>
+        </div>
+      </div>
+
+      <!-- ── DASHBOARD ── -->
+      <div id="page-dashboard" class="page active">
+        <div class="stats-row" id="dash-stats"></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+          <div class="acard">
+            <div class="acard-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>GDV Mới Nhất</div>
+            <div id="dash-gdv-recent"></div>
+          </div>
+          <div class="acard">
+            <div class="acard-title" style="color:var(--red)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/></svg>Báo Cáo Mới</div>
+            <div id="dash-rep-recent"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── ADD GDV ── -->
+      <div id="page-add-gdv" class="page">
+        <div class="acard">
+          <div class="acard-title">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg>
+            Thêm Giao Dịch Viên Mới
+          </div>
+          <div class="frow">
+            <div class="fgrp"><label class="flbl">Tên GDV *</label><input class="finp" id="a-name" placeholder="Họ tên GDV"/></div>
+            <div class="fgrp"><label class="flbl">Discord @username</label><input class="finp" id="a-discord" placeholder="@tên_discord"/></div>
+          </div>
+          <div class="frow">
+            <div class="fgrp"><label class="flbl">Ngân Hàng *</label><input class="finp" id="a-bank" placeholder="Tên NH - Số TK"/></div>
+            <div class="fgrp"><label class="flbl">Số Điện Thoại</label><input class="finp" id="a-phone" placeholder="09xxxxxxxx"/></div>
+          </div>
+          <div class="frow">
+            <div class="fgrp"><label class="flbl">Link Facebook</label><input class="finp" id="a-fb" placeholder="https://fb.com/..."/></div>
+            <div class="fgrp"><label class="flbl">Link GDV Uy Tín</label><input class="finp" id="a-gdvlink" placeholder="https://..."/></div>
+          </div>
+          <div class="fgrp"><label class="flbl">Link Avatar</label><input class="finp" id="a-ava" placeholder="https://... (để trống = tự động)"/></div>
+          <div class="fgrp">
+            <label class="flbl">Cấp Bậc GDV</label>
+            <select class="fsel" id="a-type" onchange="updateDep()">
+              <option value="GDV Thường">GDV Thường</option>
+              <option value="GDV Cao Cấp">GDV Cao Cấp</option>
+              <option value="Giao Dịch Uy Tín">Giao Dịch Uy Tín</option>
+              <option value="Giao Dịch Viên Quản Trị">Giao Dịch Viên Quản Trị</option>
+            </select>
+          </div>
+          <div class="fgrp">
+            <label class="flbl">Tiền Cọc (VNĐ) *</label>
+            <input class="finp" id="a-deposit" type="number" placeholder="Nhập số tiền cọc..." oninput="formatDep(this)"/>
+          </div>
+          <div class="dep-row">
+            <span class="dep-label">💰 Tiền cọc hiển thị</span>
+            <span class="dep-val" id="dep-display">—</span>
+          </div>
+          <button class="btn btn-blue btn-w" onclick="addGdv()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+            Thêm GDV Vào Danh Sách
+          </button>
+        </div>
+      </div>
+
+      <!-- ── GDV LIST ── -->
+      <div id="page-gdv-list" class="page">
+        <div class="sw">
+          <div class="sw-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
+          <input class="sinput" id="gdv-search" placeholder="Tìm GDV..." oninput="renderGdvList()"/>
+        </div>
+        <div id="gdv-admin-list"></div>
+      </div>
+
+      <!-- ── REPORTS ── -->
+      <div id="page-reports" class="page">
+        <div style="display:flex;gap:8px;margin-bottom:14px">
+          <button class="btn btn-sm" onclick="filterRep('all',this)" style="background:var(--card2);border:1px solid var(--border);color:var(--text)">Tất cả</button>
+          <button class="btn btn-sm" onclick="filterRep('pending',this)" style="background:var(--orange-bg);border:1px solid var(--orange);color:var(--orange)">Đang xem</button>
+          <button class="btn btn-sm" onclick="filterRep('resolved',this)" style="background:var(--green-bg);border:1px solid var(--green);color:var(--green)">Đã xử lý</button>
+        </div>
+        <div id="rep-admin-list"></div>
+      </div>
+
+      <!-- ── USERS ── -->
+      <div id="page-users" class="page">
+        <div id="users-list"></div>
+      </div>
+
+      <!-- ── LOGS ── -->
+      <div id="page-logs" class="page">
+        <div class="acard">
+          <div class="acard-title">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            Nhật Ký Truy Cập & Hoạt Động
+          </div>
+          <div style="display:flex;justify-content:flex-end;margin-bottom:12px">
+            <button class="btn btn-sm btn-red" onclick="clearLogs()">Xóa Log</button>
+          </div>
+          <div id="logs-list"></div>
+        </div>
+      </div>
+
+      <!-- ── SETTINGS ── -->
+      <div id="page-settings" class="page">
+        <div class="acard">
+          <div class="acard-title">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/></svg>
+            Cài Đặt Hệ Thống
+          </div>
+          <div class="fgrp"><label class="flbl">Tên Website</label><input class="finp" id="cfg-sitename" placeholder="AntiScam VN"/></div>
+          <div class="fgrp"><label class="flbl">Thông Báo Footer</label><input class="finp" id="cfg-footer" placeholder="Bảo vệ cộng đồng khỏi lừa đảo"/></div>
+          <div class="fgrp">
+            <label class="flbl">Thời Gian Khóa IP (phút)</label>
+            <input class="finp" id="cfg-locktime" type="number" placeholder="10" value="10"/>
+          </div>
+          <div class="fgrp">
+            <label class="flbl">Số Lần Sai Trước Khi Khóa</label>
+            <input class="finp" id="cfg-maxfail" type="number" placeholder="5" value="5"/>
+          </div>
+          <button class="btn btn-blue btn-w" onclick="saveSettings()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+            Lưu Cài Đặt
+          </button>
+        </div>
+        <div class="acard" style="border-color:var(--red)">
+          <div class="acard-title" style="color:var(--red)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/></svg>
+            Vùng Nguy Hiểm
+          </div>
+          <button class="btn btn-red btn-w" onclick="unlockAllIPs()">Mở Khóa Tất Cả IP</button>
+          <div style="height:8px"></div>
+          <button class="btn btn-red btn-w" onclick="clearAllLogs()">Xóa Tất Cả Nhật Ký</button>
+        </div>
+      </div>
+
+    </div><!-- /content -->
+  </div><!-- /layout -->
+</div><!-- /admin-app -->
+
+<script>
+const S = {
+  get: k => { try { return JSON.parse(localStorage.getItem('antiscam_' + k)) } catch { return null } },
+  set: (k, v) => localStorage.setItem('antiscam_' + k, JSON.stringify(v))
+};
+
+const ADMIN_KEY = 'lekhanhhuy-adminweb';
+const API = window.location.origin;
+let gdvData = [], repData = [], repFilter = 'all';
+
+// ══ KEY ══
+let keyAttempts = 0;
+function checkKey() {
+  const val = document.getElementById('key-inp').value;
+  if (val === ADMIN_KEY) {
+    document.getElementById('key-screen').style.display = 'none';
+    document.getElementById('admin-app').style.display = 'block';
+    S.set('admin_sess', Date.now());
+    saveLog('admin_login', 'Admin đã đăng nhập vào trang quản trị');
+    initAdmin();
+  } else {
+    keyAttempts++;
+    const err = document.getElementById('key-err');
+    err.textContent = `❌ Khóa không đúng! Lần thử: ${keyAttempts}`;
+    err.style.display = 'block';
+    document.getElementById('key-inp').value = '';
+    document.querySelector('.key-card').style.animation = 'shake .4s ease';
+    setTimeout(() => document.querySelector('.key-card').style.animation = '', 400);
+    if (keyAttempts >= 5) {
+      err.textContent = '🔴 Quá nhiều lần thử sai! Vui lòng thử lại sau.';
+      document.getElementById('key-inp').disabled = true;
+      document.querySelector('.key-btn').disabled = true;
+      setTimeout(() => {
+        document.getElementById('key-inp').disabled = false;
+        document.querySelector('.key-btn').disabled = false;
+        keyAttempts = 0;
+      }, 60000);
+    }
+  }
+}
+function toggleKeyEye() {
+  const inp = document.getElementById('key-inp'), t = inp.type === 'text';
+  inp.type = t ? 'password' : 'text';
+  document.getElementById('key-eye-btn').innerHTML = t
+    ? `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>`
+    : `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>`;
+}
+
+// ══ INIT ══
+async function initAdmin() {
+  await loadData();
+  renderDashboard();
+  renderGdvList();
+  renderRepList();
+  renderUsers();
+  renderLogs();
+  loadSettings();
+  const me = S.get('me');
+  if (me) { document.getElementById('sb-name').textContent = me.name || 'Admin'; document.getElementById('sb-ava').textContent = (me.name || 'A')[0].toUpperCase(); }
+}
+
+async function loadData() {
+  try {
+    const [g, r] = await Promise.all([
+      fetch(API + '/api/gdv').then(x => x.ok ? x.json() : null).catch(() => null),
+      fetch(API + '/api/reports').then(x => x.ok ? x.json() : null).catch(() => null)
+    ]);
+    if (g) { gdvData = g; S.set('gdv', g); }
+    else gdvData = S.get('gdv') || [];
+    if (r) { repData = r; S.set('reports', r); }
+    else repData = S.get('reports') || [];
+  } catch {
+    gdvData = S.get('gdv') || [];
+    repData = S.get('reports') || [];
+  }
+  const pending = repData.filter(r => r.status === 'pending').length;
+  document.getElementById('rep-badge').textContent = pending;
+}
+
+// ══ TIER ══
+const TIER_CFG = {
+  'GDV Thường': { color: '#22c55e', bg: 'var(--green-bg)', border: '#22c55e', glow: '#22c55e' },
+  'GDV Cao Cấp': { color: '#3b82f6', bg: 'var(--accent-bg)', border: '#3b82f6', glow: '#3b82f6' },
+  'Giao Dịch Uy Tín': { color: '#f59e0b', bg: 'var(--gold-bg)', border: '#f59e0b', glow: '#f59e0b' },
+  'Giao Dịch Viên Quản Trị': { color: '#a855f7', bg: 'var(--elite-bg)', border: '#a855f7', glow: '#a855f7' },
+};
+function getTier(t) { return TIER_CFG[t] || { color: '#64748b', bg: 'var(--silver-bg)', border: '#64748b' }; }
+
+// ══ DASHBOARD ══
+function renderDashboard() {
+  const total = gdvData.reduce((s, g) => s + (Number(g.deposit) || 0), 0);
+  const done = repData.filter(r => r.status === 'resolved').length;
+  const fmt = n => n >= 1e6 ? (n / 1e6).toFixed(1) + 'M' : n >= 1e3 ? (n / 1e3).toFixed(0) + 'K' : n;
+  document.getElementById('dash-stats').innerHTML = [
+    { l: 'GDV Đã Duyệt', v: gdvData.length, ico: '#22c55e', bg: 'var(--green-bg)', c: '--green' },
+    { l: 'Báo Cáo Scam', v: repData.length, ico: '#ef4444', bg: 'var(--red-bg)', c: '--red' },
+    { l: 'Tổng Cọc', v: fmt(total) + 'đ', ico: '#f59e0b', bg: 'var(--gold-bg)', c: '--gold' },
+    { l: 'Đã Xử Lý', v: done, ico: '#3b82f6', bg: 'var(--accent-bg)', c: '--accent' },
+  ].map((s, i) => `<div class="stat-box" style="--tier-c:${s.ico}">
+    <div class="stat-ico" style="background:${s.bg}"><svg viewBox="0 0 24 24" fill="none" stroke="${s.ico}" stroke-width="2.5">${['<path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/>','<path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/>','<line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/>','<polyline points="20 6 9 17 4 12"/>'][i]}</svg></div>
+    <div class="stat-val" style="color:var(${s.c})">${s.v}</div>
+    <div class="stat-label">${s.l}</div>
+  </div>`).join('');
+
+  document.getElementById('dash-gdv-recent').innerHTML = gdvData.slice(0, 4).map(g => {
+    const t = getTier(g.type);
+    return `<div class="gdv-row">
+      <img class="gdv-row-ava" src="${g.avatar || 'https://i.pravatar.cc/150?img=1'}" style="border-color:${t.border}" onerror="this.src='https://i.pravatar.cc/150?img=1'" alt="${g.name}"/>
+      <div class="gdv-row-info">
+        <div class="gdv-row-name">${g.name}</div>
+        <div class="gdv-row-sub">${g.discord || '—'} • <span style="color:var(--green)">${Number(g.deposit || 0).toLocaleString('vi-VN')}đ</span></div>
+        <span class="tier-badge" style="background:${t.bg};color:${t.color}">${g.type}</span>
+      </div>
+    </div>`;
+  }).join('') || '<div class="empty"><p>Chưa có GDV</p></div>';
+
+  document.getElementById('dash-rep-recent').innerHTML = repData.slice(0, 4).map(r => `<div class="rep-row">
+    <div class="rep-row-head">
+      <div class="rep-name">🚨 ${r.scamName}</div>
+      <span class="rep-pill ${r.status === 'pending' ? 'pill-pend' : 'pill-done'}">${r.status === 'pending' ? 'Chờ xử lý' : 'Đã xử lý'}</span>
+    </div>
+    <div class="rep-detail">${r.description ? r.description.slice(0, 80) + '...' : '—'}</div>
+  </div>`).join('') || '<div class="empty"><p>Chưa có báo cáo</p></div>';
+}
+
+// ══ ADD GDV ══
+function updateDep() {
+  const el = document.getElementById('a-deposit');
+  if (!el.value) document.getElementById('dep-display').textContent = '—';
+}
+function formatDep(el) {
+  const v = Number(el.value);
+  document.getElementById('dep-display').textContent = v ? v.toLocaleString('vi-VN') + 'đ' : '—';
+}
+async function addGdv() {
+  const name = document.getElementById('a-name').value.trim();
+  const bank = document.getElementById('a-bank').value.trim();
+  const deposit = Number(document.getElementById('a-deposit').value);
+  if (!name) { showNotif('Vui lòng nhập tên GDV!', 'err'); return; }
+  if (!bank) { showNotif('Vui lòng nhập thông tin ngân hàng!', 'err'); return; }
+  if (!deposit || deposit <= 0) { showNotif('Vui lòng nhập tiền cọc hợp lệ!', 'err'); return; }
+
+  const id = String(Date.now());
+  const gdv = {
+    id, name, bank, deposit,
+    discord: document.getElementById('a-discord').value.trim(),
+    phone: document.getElementById('a-phone').value.trim(),
+    fbLink: document.getElementById('a-fb').value.trim(),
+    gdvLink: document.getElementById('a-gdvlink').value.trim(),
+    avatar: document.getElementById('a-ava').value.trim() || `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=3b82f6&color=fff&size=150`,
+    type: document.getElementById('a-type').value,
+    status: 'verified',
+    joinDate: new Date().toLocaleDateString('vi-VN'),
+    createdAt: Date.now()
+  };
+
+  try {
+    const res = await fetch(API + '/api/gdv', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(gdv) });
+    if (!res.ok) throw new Error();
+  } catch {}
+  gdvData.push(gdv); S.set('gdv', gdvData);
+
+  ['a-name','a-discord','a-bank','a-phone','a-fb','a-gdvlink','a-ava','a-deposit'].forEach(i => { const el = document.getElementById(i); if (el) el.value = ''; });
+  document.getElementById('dep-display').textContent = '—';
+  saveLog('add_gdv', `Admin thêm GDV: ${name} (${gdv.type})`);
+  showNotif(`✅ Đã thêm GDV "${name}" thành công!`);
+  renderDashboard(); renderGdvList();
+  goPage('gdv-list', document.querySelector('.nav-item[onclick*="gdv-list"]'));
+}
+
+// ══ GDV LIST ══
+function renderGdvList() {
+  const q = (document.getElementById('gdv-search')?.value || '').toLowerCase();
+  const list = gdvData.filter(g => !q || (g.name||'').toLowerCase().includes(q) || (g.discord||'').toLowerCase().includes(q) || (g.bank||'').toLowerCase().includes(q));
+  const w = document.getElementById('gdv-admin-list'); if (!w) return;
+  if (!list.length) { w.innerHTML = `<div class="empty"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg><p>Chưa có GDV nào</p></div>`; return; }
+  w.innerHTML = list.map(g => {
+    const t = getTier(g.type);
+    return `<div class="gdv-row">
+      <img class="gdv-row-ava" src="${g.avatar||'https://i.pravatar.cc/150?img=1'}" style="border-color:${t.border}" onerror="this.src='https://i.pravatar.cc/150?img=1'" alt="${g.name}"/>
+      <div class="gdv-row-info" style="flex:1">
+        <div class="gdv-row-name">${g.name}</div>
+        <div class="gdv-row-sub">${g.discord||'—'} • 🏦 ${g.bank}</div>
+        <div style="display:flex;gap:8px;align-items:center;margin-top:5px;flex-wrap:wrap">
+          <span class="tier-badge" style="background:${t.bg};color:${t.color}">${g.type}</span>
+          <span style="font-size:12px;font-weight:800;color:var(--green)">${Number(g.deposit||0).toLocaleString('vi-VN')}đ</span>
+          <span style="font-size:11px;color:var(--text3)">${g.joinDate||''}</span>
+        </div>
+      </div>
+      <button class="btn-del" onclick="deleteGdv('${g.id}')">Xóa</button>
+    </div>`;
+  }).join('');
+}
+
+async function deleteGdv(id) {
+  if (!confirm('Xác nhận xóa GDV này?')) return;
+  try { await fetch(API + '/api/gdv/' + id, { method: 'DELETE' }); } catch {}
+  const g = gdvData.find(x => x.id === id);
+  gdvData = gdvData.filter(x => x.id !== id);
+  S.set('gdv', gdvData);
+  saveLog('del_gdv', `Admin xóa GDV: ${g?.name || id}`);
+  showNotif('Đã xóa GDV!', 'warn');
+  renderGdvList(); renderDashboard();
+}
+
+// ══ REPORTS ══
+function filterRep(f, btn) {
+  repFilter = f;
+  renderRepList();
+}
+function renderRepList() {
+  const list = repFilter === 'all' ? repData : repData.filter(r => r.status === repFilter);
+  const w = document.getElementById('rep-admin-list'); if (!w) return;
+  if (!list.length) { w.innerHTML = `<div class="empty"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/></svg><p>Không có báo cáo</p></div>`; return; }
+  w.innerHTML = list.map(r => `<div class="rep-row">
+    <div class="rep-row-head">
+      <div class="rep-name">🚨 ${r.scamName}</div>
+      <button class="rep-pill ${r.status === 'pending' ? 'pill-pend' : 'pill-done'}" onclick="toggleRepStatus('${r.id}')">${r.status === 'pending' ? '⏳ Đang xem' : '✅ Đã xử lý'}</button>
+    </div>
+    ${r.description ? `<div class="rep-detail">${r.description}</div>` : ''}
+    ${r.social ? `<div style="font-size:12.5px;margin-bottom:3px">📱 ${r.social}</div>` : ''}
+    ${r.phone ? `<div style="font-size:12.5px;color:var(--text2);margin-bottom:3px">📞 ${r.phone}</div>` : ''}
+    ${r.bank ? `<div style="font-size:12.5px;color:var(--red);margin-bottom:3px">🏦 ${r.bank}</div>` : ''}
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px">
+      <span style="font-size:11.5px;color:var(--text3)">${r.date}</span>
+      <button class="btn-del btn-sm" onclick="deleteRep('${r.id}')">Xóa</button>
+    </div>
+  </div>`).join('');
+}
+
+async function toggleRepStatus(id) {
+  const r = repData.find(x => x.id === id); if (!r) return;
+  r.status = r.status === 'pending' ? 'resolved' : 'pending';
+  try { await fetch(API + '/api/reports/' + id, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ status: r.status }) }); } catch {}
+  S.set('reports', repData);
+  renderRepList();
+  document.getElementById('rep-badge').textContent = repData.filter(x => x.status === 'pending').length;
+  showNotif(`Đã đổi trạng thái: ${r.status === 'resolved' ? 'Đã xử lý' : 'Đang xem'}`);
+}
+
+async function deleteRep(id) {
+  if (!confirm('Xóa báo cáo này?')) return;
+  try { await fetch(API + '/api/reports/' + id, { method: 'DELETE' }); } catch {}
+  repData = repData.filter(x => x.id !== id);
+  S.set('reports', repData);
+  renderRepList(); renderDashboard();
+  showNotif('Đã xóa báo cáo!', 'warn');
+}
+
+// ══ USERS (API thật) ══
+let ipDataCache = { locks: {}, attempts: {}, ipAccounts: {}, ipRegistered: {} };
+async function renderUsers() {
+  const w = document.getElementById('users-list'); if (!w) return;
+  let users = [];
+  try {
+    const res = await fetch(API + '/api/admin/users', { headers: { 'x-admin-key': ADMIN_KEY } });
+    if (res.ok) users = await res.json();
+    const ipRes = await fetch(API + '/api/admin/ip-data', { headers: { 'x-admin-key': ADMIN_KEY } });
+    if (ipRes.ok) ipDataCache = await ipRes.json();
+  } catch { showNotif('Không thể tải danh sách tài khoản từ server!', 'err'); }
+
+  if (!users.length) { w.innerHTML = `<div class="empty"><p>Chưa có tài khoản nào</p></div>`; return; }
+  w.innerHTML = users.map(u => {
+    const ip = Object.keys(ipDataCache.ipAccounts || {}).find(k => ipDataCache.ipAccounts[k] === u.email) || '—';
+    const locked = ipDataCache.locks && ipDataCache.locks[ip] && ipDataCache.locks[ip] > Date.now();
+    return `<div class="user-row">
+      <div class="user-ava">${u.name[0].toUpperCase()}</div>
+      <div style="flex:1;min-width:0">
+        <div style="font-size:13.5px;font-weight:800">${u.name}</div>
+        <div style="font-size:12px;color:var(--text2)">${u.email}</div>
+        <div style="font-size:11.5px;color:var(--text3);margin-top:2px">IP: ${ip} • Tham gia: ${u.joined||'—'} ${locked?'<span style="color:var(--red);font-weight:700">• 🔒 Đang khóa</span>':''}</div>
+      </div>
+      <div style="display:flex;gap:6px">
+        ${locked ? `<button class="btn-del" onclick="unlockIP('${ip}')">Mở khóa</button>` : ''}
+        <button class="btn-del" onclick="deleteUser('${u.email}')">Xóa</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+async function deleteUser(email) {
+  if (!confirm(`Xóa tài khoản ${email}?`)) return;
+  try {
+    await fetch(API + '/api/admin/users/' + encodeURIComponent(email), { method: 'DELETE', headers: { 'x-admin-key': ADMIN_KEY } });
+    showNotif('Đã xóa tài khoản!', 'warn');
+  } catch { showNotif('Lỗi xóa tài khoản!', 'err'); }
+  renderUsers();
+}
+
+async function unlockIP(ip) {
+  try {
+    await fetch(API + '/api/admin/unlock-ip', { method: 'POST', headers: { 'Content-Type': 'application/json', 'x-admin-key': ADMIN_KEY }, body: JSON.stringify({ ip }) });
+    showNotif(`Đã mở khóa IP: ${ip}`);
+  } catch { showNotif('Lỗi mở khóa IP!', 'err'); }
+  renderUsers();
+}
+
+async function unlockAllIPs() {
+  if (!confirm('Mở khóa tất cả IP?')) return;
+  try {
+    await fetch(API + '/api/admin/unlock-ip', { method: 'POST', headers: { 'Content-Type': 'application/json', 'x-admin-key': ADMIN_KEY }, body: JSON.stringify({}) });
+    showNotif('Đã mở khóa tất cả IP!');
+  } catch { showNotif('Lỗi mở khóa!', 'err'); }
+}
+
+// ══ LOGS (API thật) ══
+function saveLog(type, msg) {
+  // Server tự ghi log cho các hành động qua API (add/del gdv, report, login...).
+  // Hàm này giữ lại để gọi an toàn ở nơi khác nhưng không ghi local nữa.
+}
+async function renderLogs() {
+  const w = document.getElementById('logs-list'); if (!w) return;
+  let logs = [];
+  try {
+    const res = await fetch(API + '/api/admin/logs', { headers: { 'x-admin-key': ADMIN_KEY } });
+    if (res.ok) logs = await res.json();
+  } catch { showNotif('Không thể tải nhật ký từ server!', 'err'); }
+  if (!logs.length) { w.innerHTML = '<div class="empty"><p>Chưa có nhật ký</p></div>'; return; }
+  w.innerHTML = logs.map(l => `<div class="log-row">
+    <div class="log-dot ${l.type}"></div>
+    <div class="log-msg">${l.msg} <span style="color:var(--text3)">• IP: ${l.ip||'—'}</span></div>
+    <div class="log-time">${l.time}</div>
+  </div>`).join('');
+}
+async function clearLogs() {
+  if (!confirm('Xóa tất cả nhật ký?')) return;
+  try {
+    await fetch(API + '/api/admin/logs', { method: 'DELETE', headers: { 'x-admin-key': ADMIN_KEY } });
+    showNotif('Đã xóa nhật ký!', 'warn');
+  } catch { showNotif('Lỗi xóa nhật ký!', 'err'); }
+  renderLogs();
+}
+function clearAllLogs() { clearLogs(); }
+
+// ══ SETTINGS (API thật) ══
+async function loadSettings() {
+  try {
+    const res = await fetch(API + '/api/admin/site-config', { headers: { 'x-admin-key': ADMIN_KEY } });
+    if (res.ok) {
+      const cfg = await res.json();
+      if (cfg.sitename) document.getElementById('cfg-sitename').value = cfg.sitename;
+      if (cfg.footer) document.getElementById('cfg-footer').value = cfg.footer;
+      if (cfg.locktimeMin) document.getElementById('cfg-locktime').value = cfg.locktimeMin;
+      if (cfg.maxFail) document.getElementById('cfg-maxfail').value = cfg.maxFail;
+    }
+  } catch {}
+}
+async function saveSettings() {
+  const cfg = {
+    sitename: document.getElementById('cfg-sitename').value.trim(),
+    footer: document.getElementById('cfg-footer').value.trim(),
+    locktimeMin: Number(document.getElementById('cfg-locktime').value) || 10,
+    maxFail: Number(document.getElementById('cfg-maxfail').value) || 5,
+  };
+  try {
+    await fetch(API + '/api/admin/site-config', { method: 'POST', headers: { 'Content-Type': 'application/json', 'x-admin-key': ADMIN_KEY }, body: JSON.stringify(cfg) });
+    showNotif('✅ Đã lưu cài đặt!');
+  } catch { showNotif('Lỗi lưu cài đặt!', 'err'); }
+}
+
+// ══ NAVIGATION ══
+function goPage(id, el) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('on'));
+  const p = document.getElementById('page-' + id);
+  if (p) p.classList.add('active');
+  if (el) el.classList.add('on');
+  const titles = {
+    dashboard: 'Dashboard', 'add-gdv': 'Thêm GDV', 'gdv-list': 'Danh Sách GDV',
+    reports: 'Báo Cáo Scam', users: 'Tài Khoản Web', logs: 'Nhật Ký', settings: 'Cài Đặt'
+  };
+  document.getElementById('page-title').textContent = titles[id] || 'Admin';
+  if (id === 'logs') renderLogs();
+  if (id === 'users') renderUsers();
+}
+
+// ══ LOGOUT ══
+function doLogout() {
+  if (!confirm('Đăng xuất admin?')) return;
+  S.set('admin_sess', null);
+  window.location.href = 'index.html';
+}
+
+// ══ THEME ══
+function toggleTheme() {
+  const h = document.documentElement, dark = h.getAttribute('data-theme') === 'dark';
+  h.setAttribute('data-theme', dark ? 'light' : 'dark');
+  S.set('theme', dark ? 'light' : 'dark');
+  document.getElementById('th-ico').innerHTML = dark
+    ? `<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>`
+    : `<path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>`;
+}
+
+// ══ NOTIF ══
+let NT;
+function showNotif(msg, t = 'ok') {
+  const el = document.getElementById('notif');
+  el.textContent = msg; el.className = 'notif ' + t; el.style.display = 'block';
+  clearTimeout(NT); NT = setTimeout(() => el.style.display = 'none', 3200);
+}
+
+// ══ INIT ══
+document.addEventListener('DOMContentLoaded', () => {
+  const theme = S.get('theme') || 'dark';
+  document.documentElement.setAttribute('data-theme', theme);
+  if (theme === 'dark') {
+    document.getElementById('th-ico').innerHTML = `<path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>`;
+  } else {
+    document.getElementById('th-ico').innerHTML = `<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>`;
+  }
+  // Auto-check if already admin in session
+  const sess = S.get('admin_sess');
+  if (sess && (Date.now() - sess) < 3 * 60 * 60 * 1000) { // 3 giờ
+    document.getElementById('key-screen').style.display = 'none';
+    document.getElementById('admin-app').style.display = 'block';
+    initAdmin();
+  }
+  document.getElementById('key-inp').addEventListener('keydown', e => { if (e.key === 'Enter') checkKey(); });
+});
+</script>
+</body>
+</html>
