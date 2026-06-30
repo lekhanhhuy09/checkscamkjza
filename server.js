@@ -1,6 +1,7 @@
 // ══════════════════════════════════════════════
 // AntiScam VN — Backend Server (Node.js + Express)
-// Lưu trữ dữ liệu thật bằng JSON file, chạy được trên Render.com
+// Lưu trữ dữ liệu thật bằng JSON file, deploy trên Railway.app (có Volume thật)
+// DATA_DIR đọc từ biến môi trường (Railway Volume mount path) hoặc fallback local
 // ══════════════════════════════════════════════
 const express = require('express');
 const fs = require('fs');
@@ -9,7 +10,7 @@ const crypto = require('crypto');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-const DATA_DIR = path.join(__dirname, 'data');
+const DATA_DIR = process.env.DATA_DIR || path.join(__dirname, 'data');
 
 app.use(express.json());
 app.use(express.static(__dirname)); // serve index.html, login.html, admin.html
@@ -168,6 +169,15 @@ app.post('/api/register', (req, res) => {
   addLog('register', `Đăng ký mới: ${email} (${name}) từ IP ${ip}`, ip);
   const { pwHash, ...safeUser } = newUser;
   res.json({ success: true, user: safeUser });
+});
+
+app.get('/api/ip-status', (req, res) => {
+  const ip = getClientIP(req);
+  const ipData = readJSON('ipdata.json', { locks: {}, attempts: {}, ipAccounts: {}, ipRegistered: {} });
+  if (ipData.locks[ip] && ipData.locks[ip] > Date.now()) {
+    return res.json({ locked: true, until: ipData.locks[ip], ip });
+  }
+  return res.json({ locked: false, ip });
 });
 
 app.post('/api/login', (req, res) => {

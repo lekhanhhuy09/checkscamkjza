@@ -305,16 +305,13 @@ async function getIP() {
   checkIPStatus();
 }
 
-// ══ IP STATUS — kiểm tra thật qua server ══
+// ══ IP STATUS — kiểm tra thật qua server, không tốn lần thử sai ══
 async function checkIPStatus() {
   const ipEl = document.getElementById('ip-status');
   try {
-    const res = await fetch(API + '/api/login', {
-      method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email: '__status_check__', password: '__status_check__' })
-    });
-    if (res.status === 423) {
-      const d = await res.json();
+    const res = await fetch(API + '/api/ip-status');
+    const d = await res.json();
+    if (d.locked) {
       ipEl.textContent = '🔴 Đang khóa'; ipEl.className = 'ip-status blocked';
       showLocked(d.until);
       return;
